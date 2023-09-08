@@ -1,4 +1,4 @@
-let crystalCount = 125000;
+let crystalCount = 0;
 let miningRate;
 
 const crystalCountElement = document.getElementById("crystalCount");
