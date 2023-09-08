@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+<title>Crystal Evolution</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="crystal-count">
+    <p>Crystals: <span id="crystalCount">0</span></p>
+  </div>
+<div class="tabs">
+    <button class="tabButton" id="homeTab">Main</button>
+    <button class="tabButton" id="upgradesTab">Upgrades</button>
+    <button class="tabButton" id="settingsTab">Preferences</button>
+  </div>
+  
+  <div class="content">
+    <div id="homeContent" class="tabContent">
+      <button id="mineButton">Mine a crystal</button>
+      <div id="clickUpgrades" class="upgrades-container"></div>
+    </div>
+  
+    <div id="upgradesContent" class="tabContent">
+      <h2>Upgrades</h2>
+      <div id="mainupgradeGrid" class="mainupgrade-grid"></div>
+      <div id="tooltip" class="tooltip"></div>
+    </div>
+  
+    <div id="settingsContent" class="tabContent">
+      <h2>Preferences</h2>
+      <button id="saveButton">Save</button>
+      <button id="loadButton">Load</button>
+      <button id="discordLink" onclick="window.open('https://discord.gg/FVp4YCVUkz', '_blank')" style="background-color: rgb(0, 102, 255);" href="#">Discord</button>
+      <button id="patreonLink" onclick="window.open('https://patreon.com/fEvarto', '_blank')" style="background-color: rgb(255, 54, 54);" href="#">Patreon</button>
+      <h3>Crystal Evolution v0.0.1</h3>
+    </div>
+  </div>  
+</div>
+<script src="js/normal/upgrades.js"></script>
+<script src="js/upgradePlace.js"></script>
+
+<script src="js/tabs.js"></script>
+<script src="js/main.js"></script>
+<script src="js/settings.js"></script>
+</body>
+</html>

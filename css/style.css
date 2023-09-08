@@ -1,0 +1,165 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  
+  .container {
+    text-align: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  h1 {
+    color: #f700eb;
+    margin-bottom: 20px;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .tabButton {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: #ecf0f1;
+    color: #f700eb;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .tabButton.active {
+    background-color: #f700eb;
+    color: #fff;
+  }
+  
+  .content {
+    padding: 20px;
+    
+    background-color: #ecf0f1;
+    border-radius: 4px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    background-color: #f700eb;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #f700eb;
+    color: #fff;
+  }
+  .upgrades-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 5% 3px 15%;
+    z-index: 1;
+    font-size: min(1em, 20px);
+  }
+  
+  .click-upgrade {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    min-height: 15px;
+    width: 100%
+  }
+  
+  .upgrade-icon {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .upgrade-name {
+    display: flex;
+    min-width: 250px;
+    justify-content: left;
+  }
+  
+  .upgrade-description {
+    display: flex;
+    min-width: 250px;
+    justify-content: left;
+  }
+  
+  .upgrade-button {
+    min-width: 150px;
+  }
+
+  .auto-button {
+    background-color: rgba(0,0,0,0);
+    border: 1px solid #f700eb;
+    color: #f700eb;
+  }
+  .auto-button:hover{
+    background-color: rgba(0,0,0,0);
+    color:#f700eb;
+  }
+  .crystal-count {
+    margin: 10px 0;
+    font-size: 18px;
+    text-align: left;
+  }
+
+  .mainupgrades {
+    margin-top: 20px;
+  }
+  
+  .mainupgrade {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 25px;
+    height: 25px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mainupgrade h3 {
+    margin: 0;
+  }
+  .mainupgrade.crystal{
+    border: 1px solid #f700eb;
+  }
+  .bought{
+    background-color: rgba(38, 221, 71, 0.5);
+  }
+  .mainupgrade-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(25px, 1fr)); /* Одинаковая ширина столбцов */
+    grid-template-rows: repeat(auto-fill, minmax(25px, 1fr)); /* Одинаковая ширина столбцов */
+    grid-gap: 10px; /* Промежутки между улучшениями */
+    width: 275px;
+  }
+  .tooltip {
+    position: absolute;
+    display: none;
+    padding: 3px 10px;
+    margin: 0px 5px;
+    max-width: 400px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
