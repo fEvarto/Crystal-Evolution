@@ -33,7 +33,7 @@ saveButton.addEventListener("click", () => {
   const saveDataStr = JSON.stringify(saveData);
   const encodedData = btoa(saveDataStr);
   localStorage.setItem("gameSave", encodedData);
-  alert("Игра сохранена!");
+  alert("Game Saved!");
 });
 
 loadButton.addEventListener("click", () => {
@@ -67,8 +67,8 @@ loadButton.addEventListener("click", () => {
     updateUI();
     renderUpgrades();
     updateClickUpgradesContainer();
-    alert("Игра загружена!");
+    alert("Game Loaded!");
   } else {
-    alert("Нет сохраненных данных.");
+    alert("There are no save data");
   }
 });

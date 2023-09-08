@@ -100,9 +100,7 @@ const mainUpgrades = [
       id: 15,
       type: "crystal",
       effect: () => {
-        let eff = {}
-        eff.first = 3;
-        eff.second = 1;
+        let eff;
         return eff;
       },
       getCost: () => {
