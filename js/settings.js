@@ -166,7 +166,7 @@ function resetGame() {
   localStorage.removeItem("gameSave");
 
   // Сбросьте все переменные игры к начальному состоянию
-  crystalCount = 0;
+  crystalCount = 10;
   miningRate = 1;
 
   // Сбросьте количество и состояние всех улучшений

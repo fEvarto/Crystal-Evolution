@@ -197,7 +197,7 @@ const mainUpgrades = [
         return mainUpgrades.find(upgrade => upgrade.id === 15).purchased
       },
       getDescription: function() {
-        return `Unlocks crystal prestige (WIP)`;
+        return `Unlocks crystal prestige`;
       },
       id: 25,
       type: "crystal",
