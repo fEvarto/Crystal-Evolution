@@ -14,7 +14,7 @@ body {
   }
   
   h1 {
-    color: #f700eb;
+    color: #af29a9;
     margin-bottom: 20px;
   }
   
@@ -29,14 +29,14 @@ body {
     margin: 0 5px;
     border: none;
     background-color: #ecf0f1;
-    color: #f700eb;
+    color: #af29a9;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
   }
   
   .tabButton.active {
-    background-color: #f700eb;
+    background-color: #af29a9;
     color: #fff;
   }
   
@@ -51,7 +51,7 @@ body {
     padding: 10px 20px;
     margin: 5px;
     border: none;
-    background-color: #f700eb;
+    background-color: #af29a9;
     color: #fff;
     border-radius: 4px;
     cursor: pointer;
@@ -59,33 +59,37 @@ body {
   }
   
   button:hover {
-    background-color: #f700eb;
+    background-color: #af29a9;
     color: #fff;
   }
-  .upgrades-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 10px 5% 3px 15%;
-    z-index: 1;
-    font-size: min(1em, 20px);
+
+  .centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   }
+
+.upgrades-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  font-size: min(1em, 20px);
+}
   
   .click-upgrade {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-start; /* Выравниваем элементы по левому краю */
     align-items: center;
     gap: 10px;
     min-height: 15px;
-    width: 100%
+    width: 100%; /* Расширяем элементы на всю ширину контейнера */
   }
   
   .upgrade-icon {
     border: 1px solid #ccc;
-    padding: 10px;
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
     border-radius: 5px;
     background-color: #fff;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
@@ -109,17 +113,19 @@ body {
 
   .auto-button {
     background-color: rgba(0,0,0,0);
-    border: 1px solid #f700eb;
-    color: #f700eb;
+    border: 1px solid #af29a9;
+    color: #af29a9;
   }
   .auto-button:hover{
     background-color: rgba(0,0,0,0);
-    color:#f700eb;
+    color:#af29a9;
   }
   .crystal-count {
+    display: flex;
     margin: 10px 0;
-    font-size: 18px;
+    font-size: 21px;
     text-align: left;
+    align-items: center;
   }
 
   .mainupgrades {
@@ -141,7 +147,7 @@ body {
     margin: 0;
   }
   .mainupgrade.crystal{
-    border: 1px solid #f700eb;
+    border: 1px solid #af29a9;
   }
   .bought{
     background-color: rgba(38, 221, 71, 0.5);
@@ -162,4 +168,41 @@ body {
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  }
+  /*Settings*/
+  .confirmation-box {
+    display: none;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(170, 0, 162, 0.8);
+    color: white;
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    text-align: right; /* Выравнивание по правому краю */
+    z-index: 999;
+  }
+  
+  .confirmation-box p {
+    margin: 0;
+  }
+  .discordLink {
+    display: flex;
+    align-items: center;
+    padding: 5px 5px;
+    background-color: #7289da; /* Цвет фона Discord */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .discord-logo {
+    width: 15px; /* Размер логотипа Discord */
+    height: 10px;
+    margin-right: 5px; /* Отступ между логотипом и текстом */
+  }
+  .patreon-logo {
+    width: 13px; /* Размер логотипа Discord */
+    height: 13px;
+    margin-right: 5px; /* Отступ между логотипом и текстом */
   }

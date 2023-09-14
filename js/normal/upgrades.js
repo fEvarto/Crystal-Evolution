@@ -10,7 +10,7 @@ const mainUpgrades = [
       id: 11,
       type: "crystal",
       effect: () => {
-        let eff; let base = 0.01; let softcapValue = 1e2;
+        let eff; let base = 0.01; let softcapValue = 1.5e2;
         if (mainUpgrades.find(upgrade => upgrade.id === 23).purchased) {
           base += mainUpgrades.find(upgrade => upgrade.id === 23).effect();
         }
@@ -54,13 +54,13 @@ const mainUpgrades = [
         return true
       },
       getDescription: function() {
-        return `Softcap of "Iron Finger" starts x1.3 later per each OoM of crystals. <b>Currently: x${this.effect()}</b>`;
+        return `Softcap of "Iron Finger" starts x1.35 later per each OoM of crystals. <b>Currently: x${this.effect()}</b>`;
       },
       id: 13,
       type: "crystal",
       effect: () => {
         let eff = 1;
-        if (crystalCount != 0) {eff = Math.pow(1.3, Math.log10(crystalCount)).toFixed(2);}
+        if (crystalCount != 0) {eff = Math.pow(1.35, Math.log10(crystalCount)).toFixed(2);}
         return eff;
       },
       getCost: () => {
@@ -80,7 +80,7 @@ const mainUpgrades = [
       id: 14,
       type: "crystal",
       effect: () => {
-        let eff = 5000
+        let eff = 4000
 
         return eff
       },
@@ -197,7 +197,7 @@ const mainUpgrades = [
         return mainUpgrades.find(upgrade => upgrade.id === 15).purchased
       },
       getDescription: function() {
-        return `Unlocks crystal prestige (TBI)`;
+        return `Unlocks crystal prestige (WIP)`;
       },
       id: 25,
       type: "crystal",

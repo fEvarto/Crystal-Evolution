@@ -12,7 +12,7 @@ const clickUpgrades = [
       return true;
     },
     getDescription: function() {
-      return `Buy a pickaxe that boosts mining per click. Currently: +${this.effect(this.amount)}`;
+      return `Buy a pickaxe that boosts mining per click by ${this.effect(this.amount)}`;
     },
     id: 1,
     amount: 0,
@@ -41,7 +41,7 @@ const clickUpgrades = [
       return (mainUpgrades.find(upgrade => upgrade.id === 12).purchased);
     },
     getDescription: function() {
-      return `Sharpen your pickaxes, increasing their base. Currently: +${this.effect(this.amount)}`;
+      return `Sharpen your pickaxes, increasing their base by ${this.effect(this.amount)}`;
     },
     id: 2,
     amount: 0,
@@ -68,7 +68,7 @@ const clickUpgrades = [
       return (mainUpgrades.find(upgrade => upgrade.id === 22).purchased);
     },
     getDescription: function() {
-      return `Reinforce your pickaxes, increasing effectiveness of sharping. Currently: +${this.effect(this.amount)}`;
+      return `Reinforce your pickaxes, increasing effectiveness of sharping by ${this.effect(this.amount)}`;
     },
     id: 3,
     amount: 0,
@@ -174,7 +174,30 @@ mineButton.addEventListener("click", () => {
   crystalCount += miningRate;
   updateUI();
 });
+//Hold a button
+let miningInterval = null;
 
+mineButton.addEventListener("mousedown", () => {
+  startMining();
+});
+
+mineButton.addEventListener("mouseup", () => {
+  stopMining();
+});
+
+mineButton.addEventListener("mouseleave", () => {
+  stopMining();
+});
+
+function startMining() {
+  miningInterval = setInterval(() => {
+    mineButton.click();
+  }, 200); // Интервал между добычей (в миллисекундах)
+}
+
+function stopMining() {
+  clearInterval(miningInterval);
+}
 updateUI();
 updateClickUpgradesContainer();
 

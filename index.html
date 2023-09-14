@@ -5,14 +5,17 @@
 <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
 <title>Crystal Evolution</title>
 <link rel="stylesheet" href="css/style.css">
+
+<link class="favicon" rel="icon" type="image/png" href="images/Crystal-Evolution.png">
 </head>
 <body>
 <div class="container">
   <div class="crystal-count">
-    <p>Crystals: <span id="crystalCount">0</span></p>
+    <img class="upgrade-icon" src="images/Crystal-Evolution.png"></img>
+    <span id="crystalCount" style="margin-left: 5px;">0</span>
   </div>
 <div class="tabs">
-    <button class="tabButton" id="homeTab">Main</button>
+    <button class="tabButton" id="homeTab">Warehouse</button>
     <button class="tabButton" id="upgradesTab">Upgrades</button>
     <button class="tabButton" id="settingsTab">Preferences</button>
   </div>
@@ -20,24 +23,52 @@
   <div class="content">
     <div id="homeContent" class="tabContent">
       <button id="mineButton">Mine a crystal</button>
-      <div id="clickUpgrades" class="upgrades-container"></div>
+      <div class="centered-container">
+        <div id="clickUpgrades" class="upgrades-container">
+          <!-- Ваши улучшения здесь -->
+        </div>
+    </div>
     </div>
   
     <div id="upgradesContent" class="tabContent">
-      <h2>Upgrades</h2>
+      <button id="mineButton">Mine a crystal</button>
       <div id="mainupgradeGrid" class="mainupgrade-grid"></div>
       <div id="tooltip" class="tooltip"></div>
     </div>
   
     <div id="settingsContent" class="tabContent">
       <h2>Preferences</h2>
+      <h3>Settings</h3>
       <button id="saveButton">Save</button>
-      <button id="loadButton">Load</button>
-      <button id="discordLink" onclick="window.open('https://discord.gg/FVp4YCVUkz', '_blank')" style="background-color: rgb(0, 102, 255);" href="#">Discord</button>
-      <button id="patreonLink" onclick="window.open('https://patreon.com/fEvarto', '_blank')" style="background-color: rgb(255, 54, 54);" href="#">Patreon</button>
-      <h3>Crystal Evolution v0.0.1</h3>
+      <button id="exportButton">Export</button>
+      <button id="loadButton">Import</button>
+      <button id="resetButton" style="background-color: red;">HARD RESET</button>
+      <br>
+      <input type="text" id="saveCodeInput" placeholder="Enter save data to import">
+      <h3>Social</h3>
+      <button id="discordLink" onclick="window.open('https://discord.gg/FVp4YCVUkz', '_blank')" style="background-color: rgb(0, 102, 255);" href="#">
+        <img src="images/Discord.png" alt="Discord Server Logo" class="discord-logo">
+        Discord</button>
+      <button id="patreonLink" onclick="window.open('https://patreon.com/fEvarto', '_blank')" style="background-color: rgb(255, 54, 54);" href="#">
+        <img src="images/Patreon.png" alt="Patreon Logo" class="patreon-logo">
+        Patreon</button>
+      <button id="patchLink" onclick="window.open('https://docs.google.com/document/d/e/2PACX-1vTjnjNGj_Nwgq14q_9jTfSEdNrxo9vmAToN0zX8TUukd-Twf8TZcOpAL4eKDXWW4_RMNAO-NJgL37wT/pub', '_blank')" style="background-color: rgb(81, 98, 255);" href="#">Patch notes</button>
+      <h3>Crystal Evolution v0.0.2</h3>
     </div>
-  </div>  
+  </div>
+
+  <div id="saveConfirmation" class="confirmation-box">
+    <p>Game saved</p>
+  </div>
+
+  <div id="copyConfirmation" class="confirmation-box">
+    <p>Exported to clipboard</p>
+  </div>
+
+  <div id="importConfirmation" class="confirmation-box">
+    <p>Data imported</p>
+  </div>
+
 </div>
 <script src="js/normal/upgrades.js"></script>
 <script src="js/upgradePlace.js"></script>
