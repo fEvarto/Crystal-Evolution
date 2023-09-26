@@ -10,7 +10,7 @@ const dustBoosts = [
     },
     effect: () => {
       let eff = 0
-      if (dustBoosts.find(upgrade => upgrade.id === 1).unlocked){
+      if (dust >= 1){
       eff = Math.pow(dust, 1.25).toFixed(1)
       if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
         eff = Math.pow(eff, 1.05).toFixed(1);
@@ -28,12 +28,12 @@ const dustBoosts = [
     },
     effect: () => {
       let eff = 1
-      if (dustBoosts.find(upgrade => upgrade.id === 2).unlocked){
+      if (dust >= 10){
       eff = Math.pow(dust - 10, 0.25).toFixed(1)
       if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
         eff = Math.pow(eff, 1.05).toFixed(1)
       }
-    }
+      }
       return eff;
     }
   },
@@ -47,7 +47,7 @@ const dustBoosts = [
     },
     effect: () => {
       let eff = 0
-      if (dustBoosts.find(upgrade => upgrade.id === 3).unlocked)
+      if (dust >= 100)
       eff = Math.floor(Math.log10(dust))
       if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
         eff = Math.floor(Math.pow(eff, 1.05));
