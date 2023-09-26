@@ -93,9 +93,9 @@ loadButton.addEventListener("click", () => {
       console.log("Loaded Save Data:", saveData);
       
       // Восстанавливайте состояние из сохранения
-      crystalCount = saveData.crystalCount;
-      miningRate = saveData.miningRate;
-      gemsCount = saveData.gemsCount;
+      crystalCount = saveData.crystalCount || 0;
+      miningRate = saveData.miningRate || 0;
+      gemsCount = saveData.gemsCount || 0;
       // Обновите существующие массивы
       saveData.clickUpgradesData.forEach(savedUpgradeData => {
         const existingUpgrade = clickUpgrades.find(upgrade => upgrade.id === savedUpgradeData.id);
@@ -113,8 +113,8 @@ loadButton.addEventListener("click", () => {
         }
       });
       
-      PrestigeReset = saveData.prestigeResets;
-      dust = saveData.dust;
+      PrestigeReset = saveData.prestigeResets || 0;
+      dust = saveData.dust || 0;
     } catch (error) {
       console.error("Ошибка при разборе кода сохранения:", error);
     }
@@ -140,9 +140,9 @@ document.addEventListener("DOMContentLoaded", function() {
   if (savedGame) {
     const saveDataStr = atob(savedGame);
     const saveData = JSON.parse(saveDataStr);
-    crystalCount = saveData.crystalCount;
-    gemsCount = saveData.gemsCount;
-    miningRate = saveData.miningRate;
+    crystalCount = saveData.crystalCount || 0;
+    gemsCount = saveData.gemsCount || 0;
+    miningRate = saveData.miningRate || 1;
     saveData.clickUpgradesData.forEach(savedUpgradeData => {
       const existingUpgrade = clickUpgrades.find(upgrade => upgrade.id === savedUpgradeData.id);
       if (existingUpgrade) {
@@ -159,8 +159,8 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
 
-    PrestigeReset = saveData.prestigeResets;
-    dust = saveData.dust;
+    PrestigeReset = saveData.prestigeResets || 0;
+    dust = saveData.dust || 0;
   }
 });
 
