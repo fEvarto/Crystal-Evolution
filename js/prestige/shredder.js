@@ -33,8 +33,8 @@ const dustBoosts = [
       if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
         eff = Math.pow(eff, 1.05).toFixed(1)
       }
-      }
       return eff;
+      } else {return eff;}
     }
   },
   {
