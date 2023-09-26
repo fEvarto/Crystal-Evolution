@@ -1,4 +1,5 @@
-let dust = 0; let dustRendered = false;
+let dust = 0; 
+let dustRendered = false;
 const dustBoosts = [
   {
     id: 1,
