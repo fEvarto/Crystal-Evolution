@@ -71,7 +71,7 @@ const mainUpgrades = [
       type: "crystal",
       effect: () => {
         let eff = 1; let base = 1.35
-        if (crystalCount != 0) {eff = Math.pow(base, Math.log10(crystalCount)).toFixed(2);}
+        if (crystalCount != 0) {eff = Number(Math.pow(base, Math.log10(crystalCount)).toFixed(2));}
         return eff;
       },
       getCost: () => {
@@ -104,7 +104,7 @@ const mainUpgrades = [
           if (mainUpgrades.find(upgrade => upgrade.id === 14).purchased) {
             eff.first -= 1000;
           }
-          eff.second = Math.pow(base, upgradesOfType.length).toFixed(2);
+          eff.second = Number(Math.pow(base, upgradesOfType.length).toFixed(2));
           if (mainUpgrades.find(upgrade => upgrade.id === 14).purchased) {
             eff.first *= eff.second;
           }

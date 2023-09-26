@@ -11,13 +11,13 @@ const dustBoosts = [
     effect: () => {
       let eff = 0
       if (dustBoosts.find(upgrade => upgrade.id === 1).unlocked){
-      eff = Math.pow(dust, 1.25).toFixed(1)
+      eff = Math.pow(dust, 1.25)
       if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
-        eff = Math.pow(eff, 1.05).toFixed(1);
+        eff = Math.pow(eff, 1.05);
         console.log("Effect: " + eff)
       }}
       console.log(eff);
-      return eff;
+      return Number(eff.toFixed(1));
     }
   },
   {
@@ -31,12 +31,12 @@ const dustBoosts = [
     effect: () => {
       let eff = 1
       if (this.unlocked){
-      eff = Math.pow(dust - 10, 0.25).toFixed(1)
+      eff = Math.pow(dust - 10, 0.25)
       if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
-        eff = Math.pow(eff, 1.05).toFixed(1);
+        eff = Math.pow(eff, 1.05)
       }
     }
-      return eff;
+      return Number(eff.toFixed(1));
     }
   },
   {

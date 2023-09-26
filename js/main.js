@@ -234,8 +234,8 @@ function updateUI() {
   dustGain = upgradeEffects.dustGain();
   crystalCountElement.textContent = Math.round(crystalCount);
   if (crystalCount >= 50000){
-  gemsCountElement.innerHTML = `${gemsCount.toFixed(2)}<br>(+${Math.max(Math.log10(crystalCount / 50000), 1).toFixed(2)})`;}
-  else {gemsCountElement.innerHTML = `${gemsCount.toFixed(2)}`;}
+  gemsCountElement.innerHTML = `${Number(gemsCount.toFixed(2))}<br>(+${Number(Math.max(Math.log10(crystalCount / 50000), 1).toFixed(2))})`;}
+  else {gemsCountElement.innerHTML = `${Number(gemsCount.toFixed(2))}`;}
 }
 
 let miningInterval = null;
