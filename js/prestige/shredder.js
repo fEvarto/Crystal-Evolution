@@ -30,7 +30,7 @@ const dustBoosts = [
     effect: () => {
       let eff = 1
       if (dust >= 10){
-      eff = Math.pow(dust - 10, 0.25).toFixed(1)
+      eff = Math.pow(dust, 0.25).toFixed(1)
       if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
         eff = Math.pow(eff, 1.05).toFixed(1)
       }
