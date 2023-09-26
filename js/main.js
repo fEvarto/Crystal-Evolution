@@ -30,9 +30,9 @@ const clickUpgrades = [
       if (mainUpgrades.find(upgrade => upgrade.id === 21).purchased) {
         base += mainUpgrades.find(upgrade => upgrade.id === 21).effect();
       }
-      if (!isNaN(dustBoosts.find(upgrade => upgrade.id === 2).effect()) && dustBoosts.find(upgrade => upgrade.id === 2).unlocked) {
+      /*if (!isNaN(dustBoosts.find(upgrade => upgrade.id === 2).effect()) && dustBoosts.find(upgrade => upgrade.id === 2).unlocked) {
         base *= dustBoosts.find(upgrade => upgrade.id === 2).effect();
-      }
+      }*/
       return (base * x);
     },
     cost: (x) => {
