@@ -21,6 +21,7 @@ function revive(key, value) {
 saveButton.addEventListener("click", () => {
   const saveData = {
     crystalCount: crystalCount,
+    gemsCount: gemsCount,
     miningRate: miningRate,
     clickUpgradesData: clickUpgrades.map(upgrade => ({
       id: upgrade.id,
@@ -31,6 +32,8 @@ saveButton.addEventListener("click", () => {
       id: upgrade.id,
       purchased: upgrade.purchased,
     })),
+    prestigeResets: PrestigeReset,
+    dust: dust,
   };
   const saveDataStr = JSON.stringify(saveData);
   const encodedData = btoa(saveDataStr);
@@ -46,6 +49,7 @@ saveButton.addEventListener("click", () => {
 exportButton.addEventListener("click", () => {
   const saveData = {
     crystalCount: crystalCount,
+    gemsCount: gemsCount,
     miningRate: miningRate,
     clickUpgradesData: clickUpgrades.map(upgrade => ({
       id: upgrade.id,
@@ -56,6 +60,8 @@ exportButton.addEventListener("click", () => {
       id: upgrade.id,
       purchased: upgrade.purchased,
     })),
+    prestigeResets: PrestigeReset,
+    dust: dust,
   };
   const saveDataStr = JSON.stringify(saveData);
   const encodedData = btoa(saveDataStr);
@@ -89,7 +95,7 @@ loadButton.addEventListener("click", () => {
       // Восстанавливайте состояние из сохранения
       crystalCount = saveData.crystalCount;
       miningRate = saveData.miningRate;
-      
+      gemsCount = saveData.gemsCount;
       // Обновите существующие массивы
       saveData.clickUpgradesData.forEach(savedUpgradeData => {
         const existingUpgrade = clickUpgrades.find(upgrade => upgrade.id === savedUpgradeData.id);
@@ -107,9 +113,8 @@ loadButton.addEventListener("click", () => {
         }
       });
       
-      updateUI();
-      renderUpgrades();
-      updateClickUpgradesContainer();
+      PrestigeReset = saveData.prestigeResets;
+      dust = saveData.dust;
     } catch (error) {
       console.error("Ошибка при разборе кода сохранения:", error);
     }
@@ -122,6 +127,11 @@ loadButton.addEventListener("click", () => {
   setTimeout(() => {
     loadConfirmation.style.display = "none";
   }, 2000); // Окно будет скрыто через 2 секунды
+
+  upgradesRendered = false;
+  mainUpgradesRendered = false;
+  isAutoClickIntervalSet = false;
+  dustRendered = false;
 });
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -131,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const saveDataStr = atob(savedGame);
     const saveData = JSON.parse(saveDataStr);
     crystalCount = saveData.crystalCount;
+    gemsCount = saveData.gemsCount;
     miningRate = saveData.miningRate;
     saveData.clickUpgradesData.forEach(savedUpgradeData => {
       const existingUpgrade = clickUpgrades.find(upgrade => upgrade.id === savedUpgradeData.id);
@@ -147,11 +158,12 @@ document.addEventListener("DOMContentLoaded", function() {
         existingUpgrade.purchased = savedUpgradeData.purchased;
       }
     });
-    updateUI();
-    renderUpgrades();
-    updateClickUpgradesContainer();
+
+    PrestigeReset = saveData.prestigeResets;
+    dust = saveData.dust;
   }
 });
+
 const resetButton = document.getElementById("resetButton");
 
 resetButton.addEventListener("click", () => {
@@ -167,6 +179,7 @@ function resetGame() {
 
   // Сбросьте все переменные игры к начальному состоянию
   crystalCount = 10;
+  gemsCount = 0;
   miningRate = 1;
 
   // Сбросьте количество и состояние всех улучшений
@@ -179,12 +192,13 @@ function resetGame() {
     upgrade.purchased = false;
   });
 
-  // Обновите интерфейс
-  updateUI();
-  renderUpgrades();
-  updateClickUpgradesContainer();
-
+  PrestigeReset = 0;
+  dust = 0;
   // Дополнительные действия, если необходимо
+  upgradesRendered = false;
+  mainUpgradesRendered = false;
+  isAutoClickIntervalSet = false;
+  dustRendered = false;
 }
 
 setInterval(autoSave, 30000);

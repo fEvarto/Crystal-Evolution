@@ -10,13 +10,18 @@
 </head>
 <body>
 <div class="container">
-  <div class="crystal-count">
+  <div id="crystals" class="crystal-count">
     <img class="upgrade-icon" src="images/Crystal-Evolution.png"></img>
-    <span id="crystalCount" style="margin-left: 5px;">0</span>
+    <span id="crystalCount" style="margin-left: 5px; color: #ffd6f1">0</span>
   </div>
-<div class="tabs">
+  <div id="gems" class="crystal-count">
+    <img class="upgrade-icon" src="images/Gem.png"></img>
+    <span id="gemsCount" style="margin-left: 5px; color: #bce9ff">0</span>
+  </div>
+  <div class="tabs">
     <button class="tabButton" id="homeTab">Warehouse</button>
     <button class="tabButton" id="upgradesTab">Upgrades</button>
+    <button class="tabButton" id="prestigeTab">Prestige</button>
     <button class="tabButton" id="settingsTab">Preferences</button>
   </div>
   
@@ -27,15 +32,40 @@
         <div id="clickUpgrades" class="upgrades-container">
           <!-- Ваши улучшения здесь -->
         </div>
-    </div>
+        <div id="presUpgrades" class="upgrades-container">
+          <!-- Ваши улучшения здесь -->
+        </div>
+      </div>
     </div>
   
     <div id="upgradesContent" class="tabContent">
       <h2>Upgrades</h2>
-      <div id="mainupgradeGrid" class="mainupgrade-grid"></div>
+      <div class="centered-container">
+        <div id="mainupgradeGrid" class="mainupgrade-grid"></div>
+        <div id="presupgradeGrid" class="mainupgrade-grid"></div>
+      </div>
       <div id="tooltip" class="tooltip"></div>
     </div>
-  
+    
+    <div id="prestigeContent" class="tabContent">
+      <h2>Shredder</h2>
+      <div class="centered-container">
+        <div id="dust" class="crystal-count">
+          <img class="upgrade-icon"></img>
+          <span id="dustCount" style="margin-left: 5px; color: #818181">0</span>
+        </div>
+      </div>
+      <button id="convertButton">Convert</button>
+      <div class="bonuses">
+      <h3>Dust effects</h3>
+      <div class="centered-container">
+        <div id="shredder" class="upgrades-container">
+          <!-- Ваши улучшения здесь -->
+        </div>
+      </div>
+      </div>
+    </div>
+
     <div id="settingsContent" class="tabContent">
       <h2>Preferences</h2>
       <h3>Settings</h3>
@@ -53,8 +83,7 @@
         <img src="images/Patreon.png" alt="Patreon Logo" class="patreon-logo">
         Patreon</button>
       <button id="patchLink" onclick="window.open('https://docs.google.com/document/d/e/2PACX-1vTjnjNGj_Nwgq14q_9jTfSEdNrxo9vmAToN0zX8TUukd-Twf8TZcOpAL4eKDXWW4_RMNAO-NJgL37wT/pub', '_blank')" style="background-color: rgb(81, 98, 255);" href="#">Patch notes</button>
-      <br><label for="file">File progress:</label><progress id="file" max="100" value="70">70%</progress>
-      <h3>Crystal Evolution v0.0.2</h3>
+      <h3>Crystal Evolution v0.1 - Crystal Prestige, pt. I</h3>
     </div>
   </div>
 
@@ -77,5 +106,7 @@
 <script src="js/tabs.js"></script>
 <script src="js/main.js"></script>
 <script src="js/settings.js"></script>
+<script src="js/prestige/prestige.js"></script>
+<script src="js/prestige/shredder.js"></script>
 </body>
 </html>

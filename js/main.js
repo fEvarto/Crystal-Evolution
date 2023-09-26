@@ -1,7 +1,9 @@
-let crystalCount = 0;
+let crystalCount = 10;
+let gemsCount = 0;
 let miningRate;
 
 const crystalCountElement = document.getElementById("crystalCount");
+const gemsCountElement = document.getElementById("gemsCount");
 const mineButton = document.getElementById("mineButton");
 const upgradeButton = document.getElementById("upgradeButton");
 
@@ -12,20 +14,27 @@ const clickUpgrades = [
       return true;
     },
     getDescription: function() {
-      return `Buy a pickaxe that boosts mining per click by ${this.effect(this.amount)}`;
+      return `+${this.effect(this.amount)} to mining rate`;
+    },
+    keep: function(){
+      return mainUpgrades.find(upgrade => upgrade.id === 114).purchased;
     },
     id: 1,
     amount: 0,
     type: "crystal",
     effect: (x) => {
-      let base = 1
+      let base = 2
       if (clickUpgrades.find(upgrade => upgrade.id === 2).amount > 0) {
         base += clickUpgrades.find(upgrade => upgrade.id === 2).effect(clickUpgrades.find(upgrade => upgrade.id === 2).amount);
       }
       if (mainUpgrades.find(upgrade => upgrade.id === 21).purchased) {
         base += mainUpgrades.find(upgrade => upgrade.id === 21).effect();
       }
-      return base * x;
+      if (dustBoosts.find(upgrade => upgrade.id === 2).unlocked) {
+        base *= dustBoosts.find(upgrade => upgrade.id === 2).effect();
+      }
+      console.log(dustBoosts.find(upgrade => upgrade.id === 2).effect())
+      return (base * x);
     },
     cost: (x) => {
       return Math.round(10 * Math.pow(1.5, x))
@@ -41,13 +50,16 @@ const clickUpgrades = [
       return (mainUpgrades.find(upgrade => upgrade.id === 12).purchased);
     },
     getDescription: function() {
-      return `Sharpen your pickaxes, increasing their base by ${this.effect(this.amount)}`;
+      return `+${this.effect(this.amount)} to pickaxe base`;
+    },
+    keep: function(){
+      return mainUpgrades.find(upgrade => upgrade.id === 114).purchased;
     },
     id: 2,
     amount: 0,
     type: "crystal",
     effect: (x) => {
-      let base = 1
+      let base = 2
       if (clickUpgrades.find(upgrade => upgrade.id === 3).amount > 0) {
         base += clickUpgrades.find(upgrade => upgrade.id === 3).effect(clickUpgrades.find(upgrade => upgrade.id === 3).amount);
       }
@@ -57,8 +69,7 @@ const clickUpgrades = [
       return Math.round(1000 * Math.pow(2.5, x))
     },
     autoUnlocked: function(){
-      return false;
-      return (mainUpgrades.find(upgrade => upgrade.id === 24).purchased);
+      return (mainUpgrades.find(upgrade => upgrade.id === 31).purchased);
     },
     auto: false,
   },
@@ -68,13 +79,17 @@ const clickUpgrades = [
       return (mainUpgrades.find(upgrade => upgrade.id === 22).purchased);
     },
     getDescription: function() {
-      return `Reinforce your pickaxes, increasing effectiveness of sharping by ${this.effect(this.amount)}`;
+      return `+${this.effect(this.amount)} grinder stone base`;
+    },
+    keep: function(){
+      return mainUpgrades.find(upgrade => upgrade.id === 114).purchased;
     },
     id: 3,
     amount: 0,
     type: "crystal",
     effect: (x) => {
-      return 0.5 * x;
+      let base = 1
+      return base * x;
     },
     cost: (x) => {
       return Math.round(5000 * Math.pow(5, x))
@@ -85,14 +100,39 @@ const clickUpgrades = [
     },
     auto: false,
   },
+  {
+    name: "Drill",
+    unlocked: function(){
+      return PrestigeReset >= 1;
+    },
+    getDescription: function() {
+      return `^${this.effect(this.amount)} to mining rate`;
+    },
+    keep: function(){
+      return false;
+    },
+    id: 4,
+    amount: 0,
+    type: "prestige",
+    effect: (x) => {
+      let base = 1
+      return base + (x * 0.02);
+    },
+    cost: (x) => {
+      return x + 1
+    },
+    autoUnlocked: function(){
+      return false;
+    },
+    auto: false,
+  },
 ];
-
-function updateUI() {
-  miningRate = upgradeEffects.miningRate();
-  crystalCountElement.textContent = Math.round(crystalCount);
-}
-
+let mainUpgradesRendered;
 function updateClickUpgradesContainer() {
+  if (mainUpgradesRendered) {
+    return; // Улучшения уже были отрисованы, нет необходимости в повторной отрисовке
+  }
+
   const clickUpgradesContainer = document.getElementById("clickUpgrades");
   clickUpgradesContainer.innerHTML = ""; // Очищаем контейнер перед обновлением
 
@@ -112,10 +152,16 @@ function updateClickUpgradesContainer() {
       const descriptionElement = document.createElement("p");
       descriptionElement.classList.add("upgrade-description");
       descriptionElement.textContent = upgrade.getDescription();
-
       const buttonElement = document.createElement("button");
+      
       buttonElement.classList.add("upgrade-button");
+      if (upgrade.type === "crystal"){
       buttonElement.textContent = `${upgrade.cost(upgrade.amount)} crystals`;
+      buttonElement.classList.add("crystal");
+      } else if (upgrade.type === "prestige"){
+      buttonElement.textContent = `${upgrade.cost(upgrade.amount)} gems`;
+      buttonElement.classList.add("prestige");
+      }
       
 
       // Добавьте обработчик события клика на кнопку
@@ -131,6 +177,11 @@ function updateClickUpgradesContainer() {
       if(upgrade.autoUnlocked()){
         buttonAuto = document.createElement("button");
         buttonAuto.classList.add("auto-button");
+        if (upgrade.type === "crystal"){
+          buttonAuto.classList.add("crystal");
+          } else if (upgrade.type === "prestige"){
+          buttonAuto.classList.add("prestige");
+          }
         buttonAuto.textContent = `AUTO: ${upgrade.auto == true ? "ON" : "OFF"}`;
   
         buttonAuto.addEventListener("click", () => {
@@ -142,6 +193,8 @@ function updateClickUpgradesContainer() {
       upgradeElement.appendChild(descriptionElement);
 
       clickUpgradesContainer.appendChild(upgradeElement);
+
+      mainUpgradesRendered = true;
     }
   });
 }
@@ -150,31 +203,41 @@ function purchaseClickUpgrade(upgradeIndex) {
   const upgrade = clickUpgrades[upgradeIndex];
   const cost = upgrade.cost(upgrade.amount);
 
-  if (crystalCount >= cost) {
+  if (upgrade.type === "crystal" && crystalCount >= cost) {
     crystalCount -= cost;
     upgrade.amount++;
-    updateClickUpgradesContainer()
-    updateUI();
-    renderUpgrades()
+    mainUpgradesRendered = false;
     console.log("Purchased")
-  } else {
-    console.log("Недостаточно кристаллов для покупки улучшения");
+  } if (upgrade.type === "prestige" && gemsCount >= cost) {
+    gemsCount -= cost;
+    upgrade.amount++;
+    mainUpgradesRendered = false;
+    console.log("Purchased")
   }
 }
 
 function switchAuto(upgradeIndex) {
   const upgrade = clickUpgrades[upgradeIndex];
-
+  mainUpgradesRendered = false;
   upgrade.auto = !upgrade.auto
-  updateClickUpgradesContainer()
-    updateUI();
 }
 
 mineButton.addEventListener("click", () => {
   crystalCount += miningRate;
   updateUI();
 });
-//Hold a button
+
+//AUTOMATION AND UPDATING
+function updateUI() {
+  miningRate = upgradeEffects.miningRate();
+  gemsGain = upgradeEffects.gemsGain();
+  dustGain = upgradeEffects.dustGain();
+  crystalCountElement.textContent = Math.round(crystalCount);
+  if (crystalCount >= 50000){
+  gemsCountElement.innerHTML = `${gemsCount.toFixed(2)}<br>(+${Math.max(Math.log10(crystalCount / 50000), 1).toFixed(2)})`;}
+  else {gemsCountElement.innerHTML = `${gemsCount.toFixed(2)}`;}
+}
+
 let miningInterval = null;
 
 mineButton.addEventListener("mousedown", () => {
@@ -190,24 +253,31 @@ mineButton.addEventListener("mouseleave", () => {
 });
 
 function startMining() {
+  if (mainUpgrades.find(upgrade => upgrade.id === 112).purchased){
   miningInterval = setInterval(() => {
     mineButton.click();
   }, 200); // Интервал между добычей (в миллисекундах)
+}
 }
 
 function stopMining() {
   clearInterval(miningInterval);
 }
-updateUI();
-updateClickUpgradesContainer();
 
 function autoClick() {
-  if (mainUpgrades.find(upgrade => upgrade.id === 14).purchased){
   mineButton.click(); // Вызываем событие клика на кнопке
+  console.log("Clicked")
+}
+let autoClickInterval; let isAutoClickIntervalSet = false;
+function updateAutoClickInterval() {
+  if (!isAutoClickIntervalSet) {
+    const effect = mainUpgrades.find(upgrade => upgrade.id === 14).effect();
+    clearInterval(autoClickInterval);
+    autoClickInterval = setInterval(autoClick, effect.first); // Установите интервал только один раз
+    isAutoClickIntervalSet = true; // Установите флаг, что интервал установлен
+    console.log(autoClickInterval);
   }
 }
-
-setInterval(autoClick, mainUpgrades.find(upgrade => upgrade.id === 14).effect());
 
 function autoPurchaseClickUpgrades() {
   setInterval(() => {
@@ -222,5 +292,14 @@ function autoPurchaseClickUpgrades() {
     });
   }, 1000); // Проверять каждую секунду
 }
+function updateGame() {
+  updateUI();
+  updateClickUpgradesContainer();
+  updateAutoClickInterval();
+  autoPurchaseClickUpgrades();
+  renderUpgrades();
+  checkPrestigeUnlocks();
+  renderShredder();
+}
 
-autoPurchaseClickUpgrades();
+let updateGameInterval = setInterval(updateGame, 160);

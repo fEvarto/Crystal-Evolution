@@ -2,14 +2,12 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #141414;
   }
   
   .container {
     text-align: center;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #141414;
     padding: 20px;
   }
   
@@ -28,8 +26,9 @@ body {
     padding: 10px 20px;
     margin: 0 5px;
     border: none;
-    background-color: #ecf0f1;
+    background-color: #14141400;
     color: #af29a9;
+    border: 1px solid #af29a9;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
@@ -41,11 +40,13 @@ body {
   }
   
   .content {
-    padding: 20px;
-    
-    background-color: #ecf0f1;
+    padding: 10px;
+    min-height: 100%;
+    background-color: #141414;
+    border-top: 4px solid #af29a9;
+    color: white;
     border-radius: 4px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 5px #af29a823;
   }
   button {
     padding: 10px 20px;
@@ -66,7 +67,6 @@ body {
   .centered-container {
   display: flex;
   justify-content: center;
-  align-items: center;
   }
 
 .upgrades-container {
@@ -83,6 +83,7 @@ body {
     align-items: center;
     gap: 10px;
     min-height: 15px;
+    color: white;
     width: 100%; /* Расширяем элементы на всю ширину контейнера */
   }
   
@@ -91,7 +92,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: #454545;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   }
   
@@ -108,7 +109,10 @@ body {
   }
   
   .upgrade-button {
-    min-width: 150px;
+    width: 160px;
+  }
+  .upgrade-button.prestige{
+    background-color: #2821ff;
   }
 
   .auto-button {
@@ -118,12 +122,17 @@ body {
   }
   .auto-button:hover{
     background-color: rgba(0,0,0,0);
-    color:#af29a9;
+    color: #af29a9;
+  }
+  .auto-button.prestige{
+    color: #2821ff;
+    border-color: #2821ff;
   }
   .crystal-count {
     display: flex;
     margin: 10px 0;
-    font-size: 21px;
+    font-size: 19.5px;
+    color: white;
     text-align: left;
     align-items: center;
   }
@@ -149,15 +158,19 @@ body {
   .mainupgrade.crystal{
     border: 1px solid #af29a9;
   }
+  .mainupgrade.prestige{
+    border: 1px solid #2821ff
+  }
   .bought{
     background-color: rgba(38, 221, 71, 0.5);
   }
   .mainupgrade-grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(25px, 1fr)); /* Одинаковая ширина столбцов */
-    grid-template-rows: repeat(auto-fill, minmax(25px, 1fr)); /* Одинаковая ширина столбцов */
-    grid-gap: 10px; /* Промежутки между улучшениями */
-    width: 275px;
+    grid-template-rows: repeat(auto-fill, minmax(25px, 0.5fr)); /* Одинаковая ширина столбцов */
+    grid-gap: 25px; /* Промежутки между улучшениями */
+    width: 250px;
+    padding: 25px;
   }
   .tooltip {
     position: absolute;
@@ -165,8 +178,9 @@ body {
     padding: 3px 10px;
     margin: 0px 5px;
     max-width: 400px;
-    background-color: #f0f0f0;
+    background-color: #141414;
     border: 1px solid #ccc;
+    border-radius: 4px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   }
   /*Settings*/
