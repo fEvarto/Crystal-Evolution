@@ -9,7 +9,7 @@ const upgradeButton = document.getElementById("upgradeButton");
 const clickUpgrades = [
   {
     name: "Pickaxe",
-    icon: "images/Pickaxe.png",
+    icon: "Crystal-Evolution/images/Pickaxe.png",
     unlocked: function(){
       return true;
     },
@@ -32,7 +32,7 @@ const clickUpgrades = [
       if (mainUpgrades.find(upgrade => upgrade.id === 21).purchased) {
         base = base.add(mainUpgrades.find(upgrade => upgrade.id === 21).effect());
       }
-      if (dustBoosts.find(upgrade => upgrade.id === 1).unlocked) {
+      if (dustBoosts.find(upgrade => upgrade.id === 1).unlocked()) {
         base = base.times(dustBoosts.find(upgrade => upgrade.id === 1).effect());
       }
       return base.times(x);
@@ -47,7 +47,7 @@ const clickUpgrades = [
   },
   {
     name: "Grinder stone",
-    icon: "images/GrinderStone.png",
+    icon: "Crystal-Evolution/images/GrinderStone.png",
     unlocked: function(){
       return (mainUpgrades.find(upgrade => upgrade.id === 12).purchased);
     },
@@ -79,7 +79,7 @@ const clickUpgrades = [
   },
   {
     name: "Reinforcement",
-    icon: "images/Reinforcement.png",
+    icon: "Crystal-Evolution/images/Reinforcement.png",
     unlocked: function(){
       return (mainUpgrades.find(upgrade => upgrade.id === 22).purchased);
     },
