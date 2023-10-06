@@ -11,7 +11,7 @@ const mainUpgrades = [
         return `Adds 1% of your current crystals to click impact. Softcaps after some gained crystals. <br><br><i><b>Currently: +${toScientificNotation(Decimal.round(this.effect()))}</b></i>`;
       },
       id: 11,
-      icon: "Crystal-Evolution/images/Iron Finger.png",
+      icon: "images/Iron Finger.png",
       type: "crystal",
       effect: () => {
         let eff = new Decimal(); let base = 0.01; let softcapValue = 150;
@@ -50,7 +50,7 @@ const mainUpgrades = [
         return `Provides possibility to sharpen your pickaxes`;
       },
       id: 12,
-      icon: "Crystal-Evolution/images/GrinderStoneUnl.png",
+      icon: "images/GrinderStoneUnl.png",
       type: "crystal",
       effect: () => {
 
@@ -73,7 +73,7 @@ const mainUpgrades = [
         return false
       },
       id: 13,
-      icon: "Crystal-Evolution/images/Gypsum.png",
+      icon: "images/Gypsum.png",
       type: "crystal",
       effect: () => {
         let eff = 1; let base = 1.4
@@ -98,7 +98,7 @@ const mainUpgrades = [
         return mainUpgrades.find(upgrade => upgrade.id === 111).purchased
       },
       id: 14,
-      icon: "Crystal-Evolution/images/Miner.png",
+      icon: "images/Miner.png",
       type: "crystal",
         effect: () => {
           let eff = {}, base = new Decimal(0.92);
@@ -134,7 +134,7 @@ const mainUpgrades = [
         return mainUpgrades.find(upgrade => upgrade.id === 113).purchased
       },
       id: 15,
-      icon: "Crystal-Evolution/images/bootleg.png",
+      icon: "images/bootleg.png",
       type: "crystal",
       effect: () => {
         let eff;
@@ -158,7 +158,7 @@ const mainUpgrades = [
         return false
       },
       id: 21,
-      icon: "Crystal-Evolution/images/Storage.png",
+      icon: "images/Storage.png",
       type: "crystal",
       effect: () => {
         let eff = 0; let base = 8;
@@ -198,7 +198,7 @@ const mainUpgrades = [
         return `Provides possibility to reinforce your pickaxes`;
       },
       id: 22,
-      icon: "Crystal-Evolution/images/ReinforcementUnl.png",
+      icon: "images/ReinforcementUnl.png",
       type: "crystal",
       effect: () => {
 
@@ -221,7 +221,7 @@ const mainUpgrades = [
         return `Increase "Iron finger" percent base by 0.5 per each OoM of crystals <br><br><i><b>Currently: +${(this.effect() * 100).toFixed(1)}%</i></b>`;
       },
       id: 23,
-      icon: "Crystal-Evolution/images/Titan Finger.png",
+      icon: "images/Titan Finger.png",
       type: "crystal",
       effect: () => {
         let eff;
@@ -246,7 +246,7 @@ const mainUpgrades = [
         return `Allows to autobuy pickaxes once per second. -1 to pickaxes to boost in "Pickaxe storage"`;
       },
       id: 24,
-      icon: "Crystal-Evolution/images/WellLog.png",
+      icon: "images/WellLog.png",
       type: "crystal",
       effect: () => {
         return 1
@@ -268,7 +268,7 @@ const mainUpgrades = [
         return `Unlocks crystal prestige`;
       },
       id: 25,
-      icon: "Crystal-Evolution/images/GemUnl.png",
+      icon: "images/GemUnl.png",
       type: "crystal",
       effect: () => {
         return 1

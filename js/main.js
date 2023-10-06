@@ -9,7 +9,7 @@ const upgradeButton = document.getElementById("upgradeButton");
 const clickUpgrades = [
   {
     name: "Pickaxe",
-    icon: "Crystal-Evolution/images/Pickaxe.png",
+    icon: "images/Pickaxe.png",
     unlocked: function(){
       return true;
     },
@@ -47,7 +47,7 @@ const clickUpgrades = [
   },
   {
     name: "Grinder stone",
-    icon: "Crystal-Evolution/images/GrinderStone.png",
+    icon: "images/GrinderStone.png",
     unlocked: function(){
       return (mainUpgrades.find(upgrade => upgrade.id === 12).purchased);
     },
@@ -79,7 +79,7 @@ const clickUpgrades = [
   },
   {
     name: "Reinforcement",
-    icon: "Crystal-Evolution/images/Reinforcement.png",
+    icon: "images/Reinforcement.png",
     unlocked: function(){
       return (mainUpgrades.find(upgrade => upgrade.id === 22).purchased);
     },
