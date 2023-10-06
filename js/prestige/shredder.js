@@ -1,59 +1,62 @@
-let dust = 0; 
+let dust = new Decimal(0); 
 let dustRendered = false;
 const dustBoosts = [
   {
     id: 1,
+    req: 1,
     unlocked: function() {
-      return dust >= 1
+      return dust >= this.req
     },
     getDescription: function() {
-      return `<b>+${this.effect()}</b> to "Iron Finger" softcap value`;
+      return `<b>x${this.effect().toFixed(2)}</b> to "Pickaxe" effect`;
     },
     effect: () => {
-      let eff = 0
+      let eff = new Decimal(1)
       if (dust >= 1){
-      eff = Math.pow(dust, 1.25).toFixed(1)
+      eff = Decimal.pow(dust, 0.25)
       if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
-        eff = Math.pow(eff, 1.05).toFixed(1);
-      }}
-      return eff;
-    }
-  },
-  {
-    id: 2,
-    unlocked: function() {
-      return dust >= 10
-    },
-    getDescription: function() {
-      return `<b>x${this.effect()}</b> to "Pickaxe" effect`;
-    },
-    effect: () => {
-      let eff = 1
-      if (dust >= 10){
-      eff = Math.pow(dust, 0.25).toFixed(1)
-      if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
-        eff = Math.pow(eff, 1.05).toFixed(1)
+        eff = eff.pow(1.05)
       }
       return eff;
       } else {return eff;}
     }
   },
   {
-    id: 3,
+    id: 2,
+    req: 10,
     unlocked: function() {
-      return dust >= 100
+      return dust >= this.req
+    },
+    getDescription: function() {
+      return `<b>+${this.effect().toFixed(2)}</b> to "Iron Finger" softcap value`;
+    },
+    effect: function(){
+      let eff = new Decimal(1)
+      if (dust >= 10){
+      eff = Decimal.pow(dust,1.2).add(dust);
+      if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
+        eff = Decimal.pow(eff, 1.05);
+      }}
+      return eff;
+    }
+  },
+  {
+    id: 3,
+    req: 100,
+    unlocked: function() {
+      return dust >= this.req
     },
     getDescription: function() {
       return `<b>-${this.effect()}</b> to "Pickaxe storage" pickaxes to boost`;
     },
     effect: () => {
-      let eff = 0
+      let eff = new Decimal(100)
       if (dust >= 100)
-      eff = Math.floor(Math.log10(dust))
+      eff = Decimal.log10(dust);
       if (mainUpgrades.find(upgrade => upgrade.id === 35).purchased) {
-        eff = Math.floor(Math.pow(eff, 1.05));
+        eff = Decimal.pow(eff, 1.05);
       }
-      return eff;
+      return eff.toFixed(1);
     }
   },
 ]
@@ -64,12 +67,14 @@ function renderShredder(){
     }
     const shredder = document.getElementById("shredder");
     shredder.innerHTML = "";
-    const dustCountElement = document.getElementById("dustCount");
-    dustCountElement.textContent = dust;
 
-    
-    dustBoosts.forEach((upgrade) => {
-      if (upgrade.unlocked()){
+    for (const upgrade of dustBoosts) {
+      if (!upgrade.unlocked()) {
+        const upgradeElement = document.createElement("span");
+        upgradeElement.innerHTML = `<br><b><i>Next bonus at ${upgrade.req} dust</b></i>`;
+        shredder.appendChild(upgradeElement);
+        break;
+      } else if (upgrade.unlocked()){
 
       const upgradeElement = document.createElement("span");
       upgradeElement.innerHTML = upgrade.getDescription();
@@ -77,14 +82,20 @@ function renderShredder(){
       shredder.appendChild(upgradeElement);
     
       dustRendered = true;
-    }});
+      }
+  };
+    const dustCountElement = document.getElementById("dustCount");
+    dustCountElement.textContent = dust;
 }
 
 const convertButton = document.getElementById("convertButton");
 convertButton.addEventListener("click", () => {
   if (gemsCount >= 1) {
     gemsCount--;
-    dust += dustGain;
+    dust = Decimal.add(dust, dustGain);
     dustRendered = false;
   }
 });
+dustElement.addEventListener("click", () =>{
+  convertButton.click();
+})

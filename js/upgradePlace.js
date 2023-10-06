@@ -1,28 +1,28 @@
 const upgradeEffects = {
     miningRate: () => {
-      let totalEffect = 1;
+      let totalEffect = new Decimal(1);
       if (mainUpgrades.find(upgrade => upgrade.id === 11).purchased) {
-        totalEffect += mainUpgrades.find(upgrade => upgrade.id === 11).effect();
+        totalEffect = totalEffect.add(mainUpgrades.find(upgrade => upgrade.id === 11).effect());
       }
       if (clickUpgrades.find(upgrade => upgrade.id === 1).amount > 0) {
-        totalEffect += clickUpgrades.find(upgrade => upgrade.id === 1).effect(clickUpgrades.find(upgrade => upgrade.id === 1).amount);
+        totalEffect = totalEffect.add(clickUpgrades.find(upgrade => upgrade.id === 1).effect(clickUpgrades.find(upgrade => upgrade.id === 1).amount));
       }
       if (clickUpgrades.find(upgrade => upgrade.id === 4).amount > 0) {
-        totalEffect = Math.pow(totalEffect, clickUpgrades.find(upgrade => upgrade.id === 4).effect(clickUpgrades.find(upgrade => upgrade.id === 4).amount));
+        totalEffect = totalEffect.pow(clickUpgrades.find(upgrade => upgrade.id === 4).effect(clickUpgrades.find(upgrade => upgrade.id === 4).amount));
       }
-      return totalEffect;
+      return Decimal.round(totalEffect);
     },
     gemsGain: () => {
       let threshold = 50000;
       if (mainUpgrades.find(upgrade => upgrade.id === 34).purchased) {
         threshold *= 0.8;
       }
-      let totalEffect = Math.max(Math.log10(crystalCount / threshold), 1);
+      let totalEffect = Decimal.max(Decimal.log10(Decimal.div(crystalCount, threshold)), 1);
       if (mainUpgrades.find(upgrade => upgrade.id === 34).purchased) {
-        totalEffect *= mainUpgrades.find(upgrade => upgrade.id === 34).effect();
+        totalEffect = totalEffect.times(mainUpgrades.find(upgrade => upgrade.id === 34).effect());
       }
       if (mainUpgrades.find(upgrade => upgrade.id === 115).purchased) {
-        totalEffect *= mainUpgrades.find(upgrade => upgrade.id === 115).effect();
+        totalEffect = totalEffect.times(mainUpgrades.find(upgrade => upgrade.id === 115).effect());
       }
 
       return totalEffect;

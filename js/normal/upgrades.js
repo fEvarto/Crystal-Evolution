@@ -8,28 +8,32 @@ const mainUpgrades = [
         return false
       },
       getDescription: function() {
-        return `Adds 1% of your current crystals to click impact. Softcaps after some gained crystals. <b>Currently: +${this.effect()}</b>`;
+        return `Adds 1% of your current crystals to click impact. Softcaps after some gained crystals. <br><br><i><b>Currently: +${toScientificNotation(Decimal.round(this.effect()))}</b></i>`;
       },
       id: 11,
+      icon: "../../images/Iron Finger.png",
       type: "crystal",
       effect: () => {
-        let eff; let base = 0.01; let softcapValue = 150;
+        let eff = new Decimal(); let base = 0.01; let softcapValue = 150;
         if (mainUpgrades.find(upgrade => upgrade.id === 23).purchased) {
           base += mainUpgrades.find(upgrade => upgrade.id === 23).effect();
         }
-        if (dustBoosts.find(boost => boost.id === 1).unlocked) {
-          softcapValue += parseFloat(dustBoosts.find(boost => boost.id === 1).effect());
+        if (dustBoosts.find(boost => boost.id === 2).unlocked) {
+          softcapValue += parseFloat(dustBoosts.find(boost => boost.id === 2).effect());
         }
         if (mainUpgrades.find(upgrade => upgrade.id === 13).purchased) {
           softcapValue *= mainUpgrades.find(upgrade => upgrade.id === 13).effect();
         }
         if (crystalCount >= softcapValue){
-            eff = Math.round((softcapValue * base) + (Math.pow((crystalCount / softcapValue), 0.4)))
-        } else {eff = Math.round(crystalCount * base);}
+            eff = Decimal.add(
+              Decimal.round(Decimal.mul(softcapValue, base)),
+              Decimal.pow(Decimal.div(crystalCount, softcapValue), 0.4)
+            )
+        } else {eff = Decimal.round(Decimal.times(crystalCount, base));}
         return eff;
       },
       getCost: () => {
-        return 250
+        return new Decimal(250)
       },
       
       purchased: false
@@ -46,12 +50,13 @@ const mainUpgrades = [
         return `Provides possibility to sharpen your pickaxes`;
       },
       id: 12,
+      icon: "../../images/GrinderStoneUnl.png",
       type: "crystal",
       effect: () => {
 
       },
       getCost: () => {
-        return 1000
+        return new Decimal(1000)
       },
       
       purchased: false
@@ -62,20 +67,21 @@ const mainUpgrades = [
         return true
       },
       getDescription: function() {
-        return `Softcap of "Iron Finger" starts x1.35 later per each OoM of crystals. <b>Currently: x${this.effect()}</b>`;
+        return `Softcap of "Iron Finger" starts x1.4 later per each OoM of crystals. <br><br><i><b>Currently: x${this.effect().toFixed(2)}</i></b>`;
       },
       keep: function(){
         return false
       },
       id: 13,
+      icon: "../../images/Gypsum.png",
       type: "crystal",
       effect: () => {
-        let eff = 1; let base = 1.35
-        if (crystalCount != 0) {eff = Number(Math.pow(base, Math.log10(crystalCount)).toFixed(2));}
+        let eff = 1; let base = 1.4
+        if (crystalCount != 0) {eff = Math.pow(base, Math.log10(crystalCount));}
         return eff;
       },
       getCost: () => {
-        return 5000
+        return new Decimal(2500)
       },
       
       purchased: false
@@ -86,25 +92,25 @@ const mainUpgrades = [
         return true
       },
       getDescription: function() {
-        return `Reduces base autoclick cooldown by 1 second and current - by 10% per each crystal upgrade bought. <b>Currently: -${(1 - this.effect().second)*100}%</b>`;
+        return `Reduces base autoclick cooldown by 1 second and current - by 8% per each crystal upgrade bought. <br><br><i><b>Currently: -${((1 - this.effect().second)*100).toFixed(2)}%</i></b>`;
       },
       keep: function(){
         return mainUpgrades.find(upgrade => upgrade.id === 111).purchased
       },
       id: 14,
+      icon: "../../images/Miner.png",
       type: "crystal",
         effect: () => {
-          let eff = {}, base = 0.9;
+          let eff = {}, base = new Decimal(0.92);
           if (mainUpgrades.find(upgrade => upgrade.id === 121).purchased) {
-            base -= mainUpgrades.find(upgrade => upgrade.id === 121).effect()
+            base = base.sub(mainUpgrades.find(upgrade => upgrade.id === 121).effect())
           }
-          console.log(base)
           let upgradesOfType = mainUpgrades.filter(upgrade => upgrade.type === "crystal" && upgrade.purchased);
           eff.first = 4000;
           if (mainUpgrades.find(upgrade => upgrade.id === 14).purchased) {
             eff.first -= 1000;
           }
-          eff.second = Number(Math.pow(base, upgradesOfType.length).toFixed(2));
+          eff.second = Math.pow(base, upgradesOfType.length);
           if (mainUpgrades.find(upgrade => upgrade.id === 14).purchased) {
             eff.first *= eff.second;
           }
@@ -112,7 +118,7 @@ const mainUpgrades = [
           return eff;
         },
       getCost: () => {
-        return 7500
+        return new Decimal(5000)
       },
       purchased: false
     },
@@ -128,13 +134,14 @@ const mainUpgrades = [
         return mainUpgrades.find(upgrade => upgrade.id === 113).purchased
       },
       id: 15,
+      icon: "../../images/bootleg.png",
       type: "crystal",
       effect: () => {
         let eff;
         return eff;
       },
       getCost: () => {
-        return 8500
+        return new Decimal(7500)
       },
       
       purchased: false
@@ -145,15 +152,16 @@ const mainUpgrades = [
         return mainUpgrades.find(upgrade => upgrade.id === 15).purchased || PrestigeReset >= 1
       },
       getDescription: function() {
-        return `Pickaxes boosts itself, increasing their own base by 1 + (current boost /10) per each 8 + (current boost). <b>Currently: +${this.effect()}</b>`;
+        return `Pickaxes boosts itself, increasing their own base by 1 + (current boost /10) per each 8 + (current boost). <br><br><i><b>Currently: +${this.effect().toFixed(1)}</i></b>`;
       },
       keep: function(){
         return false
       },
       id: 21,
+      icon: "../../images/Storage.png",
       type: "crystal",
       effect: () => {
-        let eff = 0; let base = 8;
+        let eff = new Decimal(0); let base = 8;
         if (mainUpgrades.find(upgrade => upgrade.id === 24).purchased) {
           base -= mainUpgrades.find(upgrade => upgrade.id === 24).effect();
         }
@@ -165,14 +173,14 @@ const mainUpgrades = [
         if (pickaxes >= base){
           pickaxes -= base;
           base++;
-          eff += (1 + (i/10));
+          eff = eff.add(1 + (i/10));
         }
         else {break;}
       }
         return eff;
       },
       getCost: () => {
-        return 12000
+        return new Decimal(12000)
       },
       
       purchased: false
@@ -189,12 +197,13 @@ const mainUpgrades = [
         return `Provides possibility to reinforce your pickaxes`;
       },
       id: 22,
+      icon: "../../images/ReinforcementUnl.png",
       type: "crystal",
       effect: () => {
 
       },
       getCost: () => {
-        return 16500
+        return new Decimal(16500)
       },
       
       purchased: false
@@ -208,9 +217,10 @@ const mainUpgrades = [
         return false
       },
       getDescription: function() {
-        return `Increase "Iron finger" percent base by 0.5 per each OoM of crystals <b>Currently: +${this.effect() * 100}%</b>`;
+        return `Increase "Iron finger" percent base by 0.5 per each OoM of crystals <br><br><i><b>Currently: +${(this.effect() * 100).toFixed(1)}%</i></b>`;
       },
       id: 23,
+      icon: "../../images/Titan Finger.png",
       type: "crystal",
       effect: () => {
         let eff;
@@ -218,7 +228,7 @@ const mainUpgrades = [
         return eff;
       },
       getCost: () => {
-        return 30000
+        return new Decimal(30000)
       },
       
       purchased: false
@@ -235,12 +245,13 @@ const mainUpgrades = [
         return `Allows to autobuy pickaxes once per second. -1 to pickaxes to boost in "Pickaxe storage"`;
       },
       id: 24,
+      icon: "../../images/WellLog.png",
       type: "crystal",
       effect: () => {
         return 1
       },
       getCost: () => {
-        return 40000
+        return new Decimal(40000)
       },
       purchased: false
     },
@@ -250,24 +261,25 @@ const mainUpgrades = [
         return mainUpgrades.find(upgrade => upgrade.id === 15).purchased || PrestigeReset >= 1
       },
       keep: function(){
-        return mainUpgrades.find(upgrade => upgrade.id === 113).purchased
+        return true;
       },
       getDescription: function() {
         return `Unlocks crystal prestige`;
       },
       id: 25,
+      icon: "../../images/GemUnl.png",
       type: "crystal",
       effect: () => {
         return 1
       },
       getCost: () => {
-        return 50000
+        return new Decimal(50000)
       },
       
       purchased: false
     },
     {
-      name: "Pefrect-established logictics",
+      name: "Perfect-established logictics",
       unlocked: function(){
         return PrestigeReset >= 1
       },
@@ -283,13 +295,13 @@ const mainUpgrades = [
         
       },
       getCost: () => {
-        return 2.5e5
+        return new Decimal(2.5e5)
       },
       
       purchased: false
     },
     {
-      name: "Crystal Urn",
+      name: "Crystal urn",
       unlocked: function(){
         return PrestigeReset >= 1
       },
@@ -305,7 +317,7 @@ const mainUpgrades = [
         return 2
       },
       getCost: () => {
-        return 4e5
+        return new Decimal(4e5)
       },
       
       purchased: false
@@ -327,7 +339,7 @@ const mainUpgrades = [
         
       },
       getCost: () => {
-        return 5e5
+        return new Decimal(5e5)
       },
       
       purchased: false
@@ -349,7 +361,7 @@ const mainUpgrades = [
         return 1.02
       },
       getCost: () => {
-        return 6e5
+        return new Decimal(6e5)
       },
       
       purchased: false
@@ -371,7 +383,7 @@ const mainUpgrades = [
         return 1.05
       },
       getCost: () => {
-        return 1e6
+        return new Decimal(1e6)
       },
       
       purchased: false
@@ -394,7 +406,7 @@ const mainUpgrades = [
         return 1
       },
       getCost: () => {
-        return 1
+        return new Decimal(1)
       },
       
       purchased: false
@@ -416,7 +428,7 @@ const mainUpgrades = [
         return 1
       },
       getCost: () => {
-        return 2
+        return new Decimal(2)
       },
       
       purchased: false
@@ -430,7 +442,7 @@ const mainUpgrades = [
         return false
       },
       getDescription: function() {
-        return `Keep "Crystal bootleg" and "Crystal prestige" upgrades on prestige reset`;
+        return `Keep "Crystal bootleg" upgrade on prestige reset`;
       },
       id: 113,
       type: "prestige",
@@ -438,7 +450,7 @@ const mainUpgrades = [
         return 1
       },
       getCost: () => {
-        return 2
+        return new Decimal(1)
       },
       
       purchased: false
@@ -461,7 +473,7 @@ const mainUpgrades = [
         return eff
       },
       getCost: () => {
-        return 2
+        return new Decimal(2)
       },
       
       purchased: false
@@ -483,7 +495,7 @@ const mainUpgrades = [
         return 1.03
       },
       getCost: () => {
-        return 3
+        return new Decimal(3)
       },
       
       purchased: false
@@ -512,7 +524,7 @@ const mainUpgrades = [
         return eff
       },
       getCost: () => {
-        return 4
+        return new Decimal(4)
       },
       
       purchased: false
@@ -534,9 +546,8 @@ const mainUpgrades = [
         
       },
       getCost: () => {
-        return 4
+        return new Decimal(4)
       },
-      
       purchased: false
     },
   ];
@@ -553,19 +564,21 @@ const mainUpgrades = [
     const upgrade = mainUpgrades[upgradeIndex];
     const cost = upgrade.getCost();
   
-    if (!upgrade.purchased && upgrade.type === "crystal" && crystalCount >= cost) {
-      crystalCount -= cost;
+    if (!upgrade.purchased && upgrade.type === "crystal" && crystalCount.gte(cost)) {
+      crystalCount = crystalCount.sub(cost);
       upgrade.purchased = true; // Устанавливаем статус "куплено"
       upgradesRendered = false;
       mainUpgradesRendered = false;
       isAutoClickIntervalSet = false;
+      dustRendered = false;
     }
-    if (!upgrade.purchased && upgrade.type === "prestige" && gemsCount >= cost) {
-      gemsCount -= cost;
+    if (!upgrade.purchased && upgrade.type === "prestige" && gemsCount.gte(cost)) {
+      gemsCount = gemsCount.sub(cost);
       upgrade.purchased = true; // Устанавливаем статус "куплено"
       upgradesRendered = false;
       mainUpgradesRendered = false;
       isAutoClickIntervalSet = false;
+      dustRendered = false;
     }
   }
 
@@ -588,7 +601,11 @@ const mainUpgrades = [
     const upgradeElement = document.createElement("div");
     upgradeElement.classList.add("mainupgrade");
     upgradeElement.classList.add(upgrade.type);
-    
+    if (upgrade.icon !== undefined){
+    const upgradeIcon = document.createElement("img");
+    upgradeIcon.src = upgrade.icon;
+    upgradeElement.appendChild(upgradeIcon);
+    }
     if (upgrade.purchased){
     upgradeElement.classList.add("bought");
     }
@@ -616,16 +633,15 @@ const mainUpgrades = [
 }
 
 function showTooltip(upgrade, element) {
+  tooltip.innerHTML = `<div class="tooltip-header"><b><i><h2>${upgrade.name}</h2></b></i>`
+  tooltip.innerHTML += `<div class="tooltip-header"><p style="margin-block: 0.4em">${upgrade.getDescription()}</p>`
   if (upgrade.type === "crystal"){
-  tooltip.innerHTML = `
-    <h3>${upgrade.name}</h3><p>${upgrade.getDescription()}</p><p>${upgrade.getCost()} crystals</p>
-  `;}
+  tooltip.innerHTML += `<b><i><h3 style="color: #ffd6f1">${upgrade.getCost()} crystals</b></i></h3>`
+  ;}
   else if (upgrade.type === "prestige"){
-    tooltip.innerHTML = `
-      <h3>${upgrade.name}</h3><p>${upgrade.getDescription()}</p><p>${upgrade.getCost()} gems</p>
-    `;}
+    tooltip.innerHTML += `<b><i><h3 style="color: #bce9ff">${upgrade.getCost()} gems</b></i></h3>`;}
   tooltip.style.display = "block";
-  tooltip.style.left = `${element.offsetLeft + element.offsetWidth}px`;
+  tooltip.style.left = `${element.offsetLeft + element.offsetWidth + 5}px`;
   tooltip.style.top = `${element.offsetTop}px`;
 }
 

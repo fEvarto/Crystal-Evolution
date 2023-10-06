@@ -1,6 +1,5 @@
-let crystalCount = 10;
-let gemsCount = 0;
-let miningRate;
+let crystalCount = new Decimal(10);
+let gemsCount = new Decimal(0);
 
 const crystalCountElement = document.getElementById("crystalCount");
 const gemsCountElement = document.getElementById("gemsCount");
@@ -10,11 +9,14 @@ const upgradeButton = document.getElementById("upgradeButton");
 const clickUpgrades = [
   {
     name: "Pickaxe",
+    icon: "../images/Pickaxe.png",
     unlocked: function(){
       return true;
     },
     getDescription: function() {
-      return `+${this.effect(this.amount)} to mining rate`;
+      const effect = toScientificNotation(this.effect(this.amount));
+      const effectText = typeof effect === 'number' ? effect.toFixed() : effect;
+      return `+${effectText} to mining rate`;
     },
     keep: function(){
       return mainUpgrades.find(upgrade => upgrade.id === 114).purchased;
@@ -23,20 +25,20 @@ const clickUpgrades = [
     amount: 0,
     type: "crystal",
     effect: (x) => {
-      let base = 2
+      let base = new Decimal("2")
       if (clickUpgrades.find(upgrade => upgrade.id === 2).amount > 0) {
-        base += clickUpgrades.find(upgrade => upgrade.id === 2).effect(clickUpgrades.find(upgrade => upgrade.id === 2).amount);
+        base = base.add(clickUpgrades.find(upgrade => upgrade.id === 2).effect(clickUpgrades.find(upgrade => upgrade.id === 2).amount));
       }
       if (mainUpgrades.find(upgrade => upgrade.id === 21).purchased) {
-        base += mainUpgrades.find(upgrade => upgrade.id === 21).effect();
+        base = base.add(mainUpgrades.find(upgrade => upgrade.id === 21).effect());
       }
-      if (dustBoosts.find(upgrade => upgrade.id === 2).unlocked) {
-        base *= dustBoosts.find(upgrade => upgrade.id === 2).effect();
+      if (dustBoosts.find(upgrade => upgrade.id === 1).unlocked) {
+        base = base.times(dustBoosts.find(upgrade => upgrade.id === 1).effect());
       }
-      return (base * x);
+      return base.times(x);
     },
     cost: (x) => {
-      return Math.round(10 * Math.pow(1.5, x))
+      return Decimal.round(new Decimal(10).times(Decimal.pow(1.5,x)))
     },
     autoUnlocked: function(){
       return (mainUpgrades.find(upgrade => upgrade.id === 24).purchased);
@@ -45,11 +47,14 @@ const clickUpgrades = [
   },
   {
     name: "Grinder stone",
+    icon: "../images/GrinderStone.png",
     unlocked: function(){
       return (mainUpgrades.find(upgrade => upgrade.id === 12).purchased);
     },
     getDescription: function() {
-      return `+${this.effect(this.amount)} to pickaxe base`;
+      const effect = toScientificNotation(this.effect(this.amount));
+      const effectText = typeof effect === 'number' ? effect.toFixed() : effect;
+      return `+${effectText} to pickaxe base`;
     },
     keep: function(){
       return mainUpgrades.find(upgrade => upgrade.id === 114).purchased;
@@ -58,14 +63,14 @@ const clickUpgrades = [
     amount: 0,
     type: "crystal",
     effect: (x) => {
-      let base = 2
+      let base = new Decimal(2)
       if (clickUpgrades.find(upgrade => upgrade.id === 3).amount > 0) {
-        base += clickUpgrades.find(upgrade => upgrade.id === 3).effect(clickUpgrades.find(upgrade => upgrade.id === 3).amount);
+        base = base.add(clickUpgrades.find(upgrade => upgrade.id === 3).effect(clickUpgrades.find(upgrade => upgrade.id === 3).amount));
       }
-      return base * x;
+      return base.times(x);
     },
     cost: (x) => {
-      return Math.round(1000 * Math.pow(2.5, x))
+      return Decimal.round(new Decimal(1000).times(Decimal.pow(2.5,x)))
     },
     autoUnlocked: function(){
       return (mainUpgrades.find(upgrade => upgrade.id === 31).purchased);
@@ -74,11 +79,14 @@ const clickUpgrades = [
   },
   {
     name: "Reinforcement",
+    icon: "../images/Reinforcement.png",
     unlocked: function(){
       return (mainUpgrades.find(upgrade => upgrade.id === 22).purchased);
     },
     getDescription: function() {
-      return `+${this.effect(this.amount)} grinder stone base`;
+      const effect = toScientificNotation(this.effect(this.amount));
+      const effectText = typeof effect === 'number' ? effect.toFixed() : effect;
+      return `+${effectText} to grinder stone base`;
     },
     keep: function(){
       return mainUpgrades.find(upgrade => upgrade.id === 114).purchased;
@@ -87,11 +95,11 @@ const clickUpgrades = [
     amount: 0,
     type: "crystal",
     effect: (x) => {
-      let base = 1
-      return base * x;
+      let base = new Decimal(1)
+      return base.times(x);
     },
     cost: (x) => {
-      return Math.round(5000 * Math.pow(5, x))
+      return Decimal.round(new Decimal(5000).times(Decimal.pow(5,x)))
     },
     autoUnlocked: function(){
       return false;
@@ -105,7 +113,7 @@ const clickUpgrades = [
       return PrestigeReset >= 1;
     },
     getDescription: function() {
-      return `^${this.effect(this.amount)} to mining rate`;
+      return `^${toScientificNotation(this.effect(this.amount))} to mining rate`;
     },
     keep: function(){
       return false;
@@ -114,11 +122,11 @@ const clickUpgrades = [
     amount: 0,
     type: "prestige",
     effect: (x) => {
-      let base = 1
-      return base + (x * 0.02);
+      let base = new Decimal(1)
+      return base.add(x * 0.02).toFixed(2);
     },
     cost: (x) => {
-      return x + 1
+      return new Decimal(x + 1)
     },
     autoUnlocked: function(){
       return false;
@@ -147,7 +155,11 @@ function updateClickUpgradesContainer() {
 
       const upgradeIconElement = document.createElement("a");
       upgradeIconElement.classList.add("upgrade-icon");
-
+      if (upgrade.icon){
+      const iconImage = document.createElement("img");
+      iconImage.src = upgrade.icon;
+      upgradeIconElement.appendChild(iconImage);
+    }
       const descriptionElement = document.createElement("p");
       descriptionElement.classList.add("upgrade-description");
       descriptionElement.textContent = upgrade.getDescription();
@@ -155,10 +167,10 @@ function updateClickUpgradesContainer() {
       
       buttonElement.classList.add("upgrade-button");
       if (upgrade.type === "crystal"){
-      buttonElement.textContent = `${upgrade.cost(upgrade.amount)} crystals`;
+      buttonElement.textContent = `${toScientificNotation(upgrade.cost(upgrade.amount)).toString()} crystals`;
       buttonElement.classList.add("crystal");
       } else if (upgrade.type === "prestige"){
-      buttonElement.textContent = `${upgrade.cost(upgrade.amount)} gems`;
+      buttonElement.textContent = `${toScientificNotation(upgrade.cost(upgrade.amount)).toString()} gems`;
       buttonElement.classList.add("prestige");
       }
       
@@ -202,13 +214,13 @@ function purchaseClickUpgrade(upgradeIndex) {
   const upgrade = clickUpgrades[upgradeIndex];
   const cost = upgrade.cost(upgrade.amount);
 
-  if (upgrade.type === "crystal" && crystalCount >= cost) {
-    crystalCount -= cost;
+  if (upgrade.type === "crystal" && crystalCount.gte(cost)) {
+    crystalCount = crystalCount.sub(cost);
     upgrade.amount++;
     mainUpgradesRendered = false;
     console.log("Purchased")
-  } if (upgrade.type === "prestige" && gemsCount >= cost) {
-    gemsCount -= cost;
+  } if (upgrade.type === "prestige" && gemsCount.gte(cost)) {
+    gemsCount = gemsCount.sub(cost);
     upgrade.amount++;
     mainUpgradesRendered = false;
     console.log("Purchased")
@@ -222,7 +234,7 @@ function switchAuto(upgradeIndex) {
 }
 
 mineButton.addEventListener("click", () => {
-  crystalCount += miningRate;
+  crystalCount = Decimal.add(crystalCount, miningRate);
   updateUI();
 });
 
@@ -231,9 +243,11 @@ function updateUI() {
   miningRate = upgradeEffects.miningRate();
   gemsGain = upgradeEffects.gemsGain();
   dustGain = upgradeEffects.dustGain();
-  crystalCountElement.textContent = Math.round(crystalCount);
-  if (crystalCount >= 50000){
-  gemsCountElement.innerHTML = `${gemsCount.toFixed(2)}<br>(+${Math.max(Math.log10(crystalCount / 50000), 1).toFixed(2)})`;}
+  crystalCount = new Decimal(crystalCount);
+  gemsCount = new Decimal(gemsCount);
+  crystalCountElement.textContent = toScientificNotation(crystalCount).toString();
+  if (crystalCount.gte(new Decimal(50000))){
+  gemsCountElement.innerHTML = `${gemsCount.toFixed(2)}<br>(+${gemsGain.toFixed(2).toString()})`;}
   else {gemsCountElement.innerHTML = `${gemsCount.toFixed(2)}`;}
 }
 
@@ -284,7 +298,7 @@ function autoPurchaseClickUpgrades() {
     clickUpgrades.forEach((upgrade, index) => {
       if (upgrade.autoUnlocked() && upgrade.auto) {
         const cost = upgrade.cost(upgrade.amount);
-        if (crystalCount >= cost) {
+        if (crystalCount.gte(cost)) {
           purchaseClickUpgrade(index);
         }
       }
@@ -301,4 +315,4 @@ function updateGame() {
   renderShredder();
 }
 
-let updateGameInterval = setInterval(updateGame, 160);
+let updateGameInterval = setInterval(updateGame, 33);

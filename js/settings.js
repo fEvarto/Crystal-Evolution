@@ -93,9 +93,8 @@ loadButton.addEventListener("click", () => {
       console.log("Loaded Save Data:", saveData);
       
       // Восстанавливайте состояние из сохранения
-      crystalCount = saveData.crystalCount || 0;
-      miningRate = saveData.miningRate || 0;
-      gemsCount = saveData.gemsCount || 0;
+      crystalCount = saveData.crystalCount || new Decimal(0);
+      gemsCount = saveData.gemsCount || new Decimal(0);
       // Обновите существующие массивы
       saveData.clickUpgradesData.forEach(savedUpgradeData => {
         const existingUpgrade = clickUpgrades.find(upgrade => upgrade.id === savedUpgradeData.id);
@@ -140,9 +139,8 @@ document.addEventListener("DOMContentLoaded", function() {
   if (savedGame) {
     const saveDataStr = atob(savedGame);
     const saveData = JSON.parse(saveDataStr);
-    crystalCount = saveData.crystalCount || 0;
-    gemsCount = saveData.gemsCount || 0;
-    miningRate = saveData.miningRate || 1;
+    crystalCount = saveData.crystalCount || new Decimal(10);
+    gemsCount = saveData.gemsCount || new Decimal(0);
     saveData.clickUpgradesData.forEach(savedUpgradeData => {
       const existingUpgrade = clickUpgrades.find(upgrade => upgrade.id === savedUpgradeData.id);
       if (existingUpgrade) {
@@ -160,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     PrestigeReset = saveData.prestigeResets || 0;
-    dust = saveData.dust || 0;
+    dust = saveData.dust || new Decimal(0);
   }
 });
 
@@ -178,9 +176,8 @@ function resetGame() {
   localStorage.removeItem("gameSave");
 
   // Сбросьте все переменные игры к начальному состоянию
-  crystalCount = 10;
-  gemsCount = 0;
-  miningRate = 1;
+  crystalCount = new Decimal(10);
+  gemsCount = new Decimal(0);
 
   // Сбросьте количество и состояние всех улучшений
   clickUpgrades.forEach((upgrade) => {
@@ -193,7 +190,7 @@ function resetGame() {
   });
 
   PrestigeReset = 0;
-  dust = 0;
+  dust = new Decimal(0);
   // Дополнительные действия, если необходимо
   upgradesRendered = false;
   mainUpgradesRendered = false;

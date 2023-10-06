@@ -12,24 +12,33 @@
 
 <body>
 <div class="container">
-  <div id="crystals" class="crystal-count">
+  <div id="tableres-container" class="table-left">
+  <div class="resource-container">
+  <div id="crystals" class="count">
     <img class="upgrade-icon" src="images/Crystal-Evolution.png"></img>
     <span id="crystalCount" style="margin-left: 5px; color: #ffd6f1">0</span>
   </div>
-  <div id="gems" class="crystal-count">
+  <div id="gems" class="count">
     <img class="upgrade-icon" src="images/Gem.png"></img>
     <span id="gemsCount" style="margin-left: 5px; color: #bce9ff">0</span>
+    </div>
+  <div id="dust" class="count">
+      <img class="upgrade-icon"></img>
+      <span id="dustCount" style="margin-left: 5px; color: #818181">0</span>
   </div>
+  </div>
+  </div>
+
   <div class="tabs">
     <button class="tabButton" id="homeTab">Warehouse</button>
     <button class="tabButton" id="upgradesTab">Upgrades</button>
-    <button class="tabButton" id="prestigeTab">Prestige</button>
+    <button class="tabButton prestigeTab" id="prestigeTab">Prestige</button>
     <button class="tabButton" id="settingsTab">Preferences</button>
   </div>
   
-  <div class="content">
+  <div id="content" class="content">
     <div id="homeContent" class="tabContent">
-      <button id="mineButton">Mine a crystal</button>
+      <button id="mineButton" class="clickButton">Mine a crystal</button>
       <div class="centered-container">
         <div id="clickUpgrades" class="upgrades-container">
           <!-- Ваши улучшения здесь -->
@@ -51,18 +60,16 @@
     
     <div id="prestigeContent" class="tabContent">
       <h2>Shredder</h2>
-      <div class="centered-container">
-        <div id="dust" class="crystal-count">
-          <img class="upgrade-icon"></img>
-          <span id="dustCount" style="margin-left: 5px; color: #818181">0</span>
+      <button id="convertButton" class="clickButton prestigeTab active">Convert</button>
+      <div class="bonuses" style = "display: flex; justify-content: space-evenly;">
+      <div class="dust-container">
+        <div class="title-container">
+          <h2><b><i>Dust effects</i></b></h2>
         </div>
-      </div>
-      <button id="convertButton">Convert</button>
-      <div class="bonuses">
-      <h3>Dust effects</h3>
-      <div class="centered-container">
-        <div id="shredder" class="upgrades-container">
+        <div class="centered-container">
+          <div id="shredder" class="upgrades-container">
           <!-- Ваши улучшения здесь -->
+          </div>
         </div>
       </div>
       </div>
@@ -85,7 +92,19 @@
         <img src="images/Patreon.png" alt="Patreon Logo" class="patreon-logo">
         Patreon</button>
       <button id="patchLink" onclick="window.open('https://docs.google.com/document/d/e/2PACX-1vTjnjNGj_Nwgq14q_9jTfSEdNrxo9vmAToN0zX8TUukd-Twf8TZcOpAL4eKDXWW4_RMNAO-NJgL37wT/pub', '_blank')" style="background-color: rgb(81, 98, 255);" href="#">Patch notes</button>
-      <h3>Crystal Evolution v0.1 - Crystal Prestige, pt. I</h3>
+      <button id="supporters">Supporters</button><br>
+      <div id="patronsPopup" class="popup">
+        <div class="popup-content">
+          <h2 style="padding-bottom:10px; border-bottom: 1px solid #fff"><b><i>Patrons List</i></b></h2>
+          <span id="closePopup" class="close-button">×</span>
+          <h3>My biggest gratitude for all who decided to support me and my games</h3>
+          <div id="patronsList" class="scrollable-content">
+            <!-- Здесь будет список патронов -->
+          </div>
+        </div>
+      </div>
+      <label for="file">Patreon support:</label><progress id="fileBar" max="500" value="0"></progress><label id="boostPerc"for="file"> 0.00%</label>
+      <h3>Crystal Evolution v0.1.1 - Prestige Fix</h3>
     </div>
   </div>
 
@@ -102,14 +121,20 @@
   </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/break_infinity.js@2"></script>
+
 <script src="js/normal/upgrades.js"></script>
 <script src="js/upgradePlace.js"></script>
 
-<script src="js/tabs.js"></script>
+<script src="js/tabs_n_funcs.js"></script>
 <script src="js/main.js"></script>
 <script src="js/settings.js"></script>
 
 <script src="js/prestige/prestige.js"></script>
 <script src="js/prestige/shredder.js"></script>
+
+<script src="js/tooltip.js"></script>
+<script src="js/patreon.js"></script>
 </body>
 </html>
